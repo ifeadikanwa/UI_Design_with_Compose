@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">UI Design with Compose</string>
+    <string name="title_activity_feed">Feed</string>
+</resources>
