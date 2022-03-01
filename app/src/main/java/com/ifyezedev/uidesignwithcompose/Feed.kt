@@ -48,25 +48,34 @@ fun FeedScreen(){
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colors.background
     ) {
-        Column(modifier = Modifier.padding(20.dp)) {
-            Spacer(modifier = Modifier.height(25.dp))
-
-            Text(
-                text = "Feed",
-                style = MaterialTheme.typography.h3.copy(
-                    fontSize = 50.sp,
-                    fontWeight = FontWeight.ExtraBold
-                )
-            )
-            
-            Spacer(modifier = Modifier.height(10.dp))
-
-            ProgressNotice(progressStatus = ProgressStatus.GOOD)
-
-            Posts()
+        Scaffold(
+            bottomBar = { BottomNavBar()}
+        ) {
+            FeedElements()
         }
-    }
 
+    }
+}
+
+@Composable
+fun FeedElements() {
+    Column(modifier = Modifier.padding(20.dp)) {
+        Spacer(modifier = Modifier.height(25.dp))
+
+        Text(
+            text = "Feed",
+            style = MaterialTheme.typography.h3.copy(
+                fontSize = 50.sp,
+                fontWeight = FontWeight.ExtraBold
+            )
+        )
+
+        Spacer(modifier = Modifier.height(10.dp))
+
+        ProgressNotice(progressStatus = ProgressStatus.GOOD)
+
+        Posts()
+    }
 }
 
 @Composable
@@ -252,6 +261,33 @@ fun ProgressNoticeHeading() {
     }
 }
 
+@Composable
+fun BottomNavBar() {
+    val items = listOf<BottomNavigationBarItems>(
+        BottomNavigationBarItems.Favorites,
+        BottomNavigationBarItems.Home,
+        BottomNavigationBarItems.Messages
+    )
+
+    BottomNavigation(
+        backgroundColor = LighterBlue,
+        contentColor = Grey
+    ) {
+        items.forEach { barItem ->
+            BottomNavigationItem(
+                icon = { Icon(imageVector = barItem.icon, contentDescription = barItem.title)},
+                label = { Text(text = barItem.title)},
+                alwaysShowLabel = true,
+                selectedContentColor = Green,
+                unselectedContentColor = Grey,
+                selected = if(barItem == BottomNavigationBarItems.Home) true else false,
+                onClick = { /*TODO*/ }
+            )
+        }
+    }
+
+}
+
 
 @Preview(showBackground = true)
 @Composable
@@ -259,6 +295,12 @@ fun DefaultPreviewDark() {
     UIDesignWithComposeTheme(darkTheme = true) {
         FeedScreen()
     }
+}
+
+@Preview
+@Composable
+fun BottomNavPreview(){
+    BottomNavBar()
 }
 
 enum class ProgressStatus(val color: Color) {
